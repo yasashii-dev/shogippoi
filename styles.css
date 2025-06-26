@@ -415,16 +415,13 @@ body::before {
     grid-template-columns: repeat(9, 36px);
     grid-template-rows: repeat(9, 36px);
     gap: 0;
-    background: 
-        radial-gradient(ellipse at center, #3a2618 0%, #1a0e08 100%);
-    border: 6px solid transparent;
+    background-color: #f0d9b5;
+    border: 4px solid #8b6914;
     padding: 0;
     box-shadow: 
-        inset 0 0 30px rgba(0, 0, 0, 0.8),
-        0 10px 40px rgba(0, 0, 0, 0.6),
-        0 0 60px rgba(212, 175, 55, 0.1);
+        inset 0 0 10px rgba(0, 0, 0, 0.1),
+        0 5px 20px rgba(0, 0, 0, 0.3);
     position: relative;
-    background-clip: padding-box;
 }
 
 .board::before {
@@ -461,38 +458,23 @@ body::before {
         repeating-linear-gradient(
             90deg,
             transparent,
-            transparent 36px,
-            rgba(212, 175, 55, 0.1) 36px,
-            rgba(212, 175, 55, 0.1) 37px
+            transparent 35px,
+            #8b6914 35px,
+            #8b6914 36px
         ),
         repeating-linear-gradient(
             0deg,
             transparent,
-            transparent 36px,
-            rgba(212, 175, 55, 0.1) 36px,
-            rgba(212, 175, 55, 0.1) 37px
+            transparent 35px,
+            #8b6914 35px,
+            #8b6914 36px
         );
     pointer-events: none;
+    opacity: 0.5;
 }
 
 .cell {
-    background: 
-        radial-gradient(ellipse at center, #e6d0a3 0%, #d4bb89 100%);
-    background-image: 
-        repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 2px,
-            rgba(139, 69, 19, 0.05) 2px,
-            rgba(139, 69, 19, 0.05) 4px
-        ),
-        repeating-linear-gradient(
-            90deg,
-            transparent,
-            transparent 2px,
-            rgba(139, 69, 19, 0.03) 2px,
-            rgba(139, 69, 19, 0.03) 4px
-        );
+    background-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -500,9 +482,7 @@ body::before {
     position: relative;
     font-size: 14px;
     font-weight: bold;
-    border-right: 1px solid rgba(139, 69, 19, 0.5);
-    border-bottom: 1px solid rgba(139, 69, 19, 0.5);
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
 }
 
 .cell:nth-child(9n) {
@@ -519,13 +499,13 @@ body::before {
 }
 
 .cell.valid-move {
-    background-color: #98c379;
-    box-shadow: inset 0 0 15px rgba(76, 175, 80, 0.5);
+    background-color: rgba(152, 195, 121, 0.5);
+    box-shadow: inset 0 0 10px rgba(76, 175, 80, 0.3);
 }
 
 .cell.valid-summon {
-    background-color: #7cb3d4;
-    box-shadow: inset 0 0 15px rgba(70, 130, 180, 0.5);
+    background-color: rgba(124, 179, 212, 0.5);
+    box-shadow: inset 0 0 10px rgba(70, 130, 180, 0.3);
 }
 
 .cell.selected {

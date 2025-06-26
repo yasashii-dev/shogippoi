@@ -230,9 +230,18 @@ class Game {
         // ゲーム開始画面を非表示
         document.getElementById('start-screen').classList.add('hidden');
         
+        // 初回のみ演出を追加
+        const container = document.querySelector('.game-container');
+        container.classList.add('initial');
+        
         // ゲームを初期化
         this.initialize();
         this.gameStarted = true;
+        
+        // 演出後にクラスを削除
+        setTimeout(() => {
+            container.classList.remove('initial');
+        }, 1500);
     }
 }
 
