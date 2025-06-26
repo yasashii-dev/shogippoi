@@ -91,6 +91,8 @@ class Piece {
         this.player = player;
         this.position = position;
         this.promoted = false;
+        this.isNew = false;
+        this.isMoved = false;
     }
 
     // 駒を成る

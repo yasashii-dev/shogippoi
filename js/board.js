@@ -130,6 +130,13 @@ class Board {
         this.cells[toY][toX] = piece;
         this.cells[fromY][fromX] = null;
         piece.position = { x: toX, y: toY };
+        
+        // 移動した駒にマークを付ける
+        piece.isMoved = true;
+        // 演出後にマークを削除
+        setTimeout(() => {
+            piece.isMoved = false;
+        }, 200);
     }
 
     // 成りのプロンプト
@@ -307,6 +314,14 @@ class Board {
             if (piece) {
                 const pieceElement = document.createElement('div');
                 pieceElement.className = `piece player${piece.player}`;
+                // 新しい駒にはクラスを追加
+                if (piece.isNew) {
+                    pieceElement.classList.add('new-piece');
+                }
+                // 移動した駒にはクラスを追加
+                if (piece.isMoved) {
+                    pieceElement.classList.add('moved');
+                }
                 pieceElement.textContent = piece.type;
                 cell.appendChild(pieceElement);
             }
@@ -318,7 +333,13 @@ class Board {
         if (this.cells[y][x] === null) {
             const newPiece = new Piece(pieceType, this.currentPlayer, { x, y });
             this.cells[y][x] = newPiece;
+            // 新しい駒にマークを付ける
+            newPiece.isNew = true;
             this.render();
+            // 演出後にマークを削除
+            setTimeout(() => {
+                newPiece.isNew = false;
+            }, 300);
             return true;
         }
         return false;

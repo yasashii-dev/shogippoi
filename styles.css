@@ -817,15 +817,19 @@ body::before {
     }
 }
 
-/* 駒の出現演出 */
-.piece {
-    animation: pieceAppear 0.5s ease-out;
+/* 初回の王将のみ回転演出 */
+.game-container.initial .piece {
+    animation: kingAppear 0.8s ease-out;
 }
 
-@keyframes pieceAppear {
+@keyframes kingAppear {
     from {
-        transform: scale(0) rotate(180deg);
+        transform: scale(0) rotate(360deg);
         opacity: 0;
+    }
+    50% {
+        transform: scale(1.1) rotate(180deg);
+        opacity: 0.8;
     }
     to {
         transform: scale(1) rotate(0deg);
@@ -833,17 +837,51 @@ body::before {
     }
 }
 
-.piece.player2 {
-    animation: pieceAppear2 0.5s ease-out;
+.game-container.initial .piece.player2 {
+    animation: kingAppear2 0.8s ease-out;
 }
 
-@keyframes pieceAppear2 {
+@keyframes kingAppear2 {
     from {
-        transform: scale(0) rotate(-180deg);
+        transform: scale(0) rotate(-360deg);
         opacity: 0;
+    }
+    50% {
+        transform: scale(1.1) rotate(-180deg);
+        opacity: 0.8;
     }
     to {
         transform: scale(1) rotate(180deg);
         opacity: 1;
+    }
+}
+
+/* 通常の駒出現演出（控えめ） */
+.piece.new-piece {
+    animation: gentleAppear 0.3s ease-out;
+}
+
+@keyframes gentleAppear {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 駒移動時の演出（さらに控えめ） */
+.piece.moved {
+    animation: gentleMove 0.2s ease-out;
+}
+
+@keyframes gentleMove {
+    from {
+        transform: scale(0.95);
+    }
+    to {
+        transform: scale(1);
     }
 }
