@@ -25,7 +25,7 @@
 
 ## デモ
 
-[ゲームをプレイする](https://YOUR_USERNAME.github.io/shogippoi/)
+[ゲームをプレイする](https://yasashii-dev.github.io/shogippoi/)
 
 ## 技術スタック
 
