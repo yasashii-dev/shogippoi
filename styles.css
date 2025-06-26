@@ -1,0 +1,447 @@
+/* リセットCSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f0e6d2;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10px;
+}
+
+/* ゲームコンテナ */
+.game-container {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 5px;
+}
+
+/* ヘッダー */
+.game-header {
+    background-color: #8b4513;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-header h1 {
+    font-size: 16px;
+}
+
+.game-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#current-player {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* アクション選択 */
+.action-selection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.action-btn {
+    background-color: #654321;
+    color: white;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover:not(:disabled) {
+    background-color: #7b5a3a;
+}
+
+.action-btn.active {
+    background-color: #4CAF50;
+    border-color: #81C784;
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.action-status {
+    font-size: 14px;
+    margin-left: 10px;
+    font-style: italic;
+}
+
+.action-status.action-completed {
+    color: #81C784;
+    font-weight: bold;
+}
+
+/* ボタン */
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #757575;
+    color: white;
+}
+
+.btn-large {
+    padding: 15px 30px;
+    font-size: 18px;
+}
+
+#surrender-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+/* アクション選択 */
+.action-selection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.action-btn {
+    background-color: #666;
+    color: white;
+}
+
+.action-btn.active {
+    background-color: #4CAF50;
+}
+
+.action-btn:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.action-status {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+/* メインゲームエリア */
+.game-main {
+    background-color: white;
+    padding: 10px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* プレイヤーエリア */
+.player-area {
+    padding: 8px;
+    margin-bottom: 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.player-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.player-info h3 {
+    font-size: 14px;
+    color: #333;
+}
+
+.deck-count {
+    font-size: 11px;
+    color: #666;
+}
+
+/* 手札エリア */
+.hand-cards {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+    padding: 5px 0;
+    min-height: 70px;
+}
+
+.card {
+    width: 48px;
+    height: 60px;
+    background-color: #fff;
+    border: 2px solid #333;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card.selected {
+    border-color: #4CAF50;
+    background-color: #e8f5e9;
+}
+
+/* 将棋盤 */
+.board-container {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(9, 36px);
+    grid-template-rows: repeat(9, 36px);
+    gap: 1px;
+    background-color: #333;
+    border: 2px solid #333;
+    padding: 1px;
+}
+
+.cell {
+    background-color: #f0d9b5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.cell:hover {
+    background-color: #e6cf9f;
+}
+
+.cell.valid-move {
+    background-color: #90ee90;
+}
+
+.cell.valid-summon {
+    background-color: #87ceeb;
+}
+
+.cell.selected {
+    background-color: #ffeb3b;
+}
+
+/* 駒 */
+.piece {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+.piece.player1 {
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #333;
+}
+
+.piece.player2 {
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #fff;
+    transform: rotate(180deg);
+}
+
+/* 取られた駒エリア */
+.captured-pieces {
+    margin-top: 8px;
+}
+
+.captured-pieces h4 {
+    font-size: 11px;
+    margin-bottom: 3px;
+    color: #666;
+}
+
+.captured-list {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+}
+
+.captured-list .piece {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+}
+
+/* モーダル */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* スタート画面 */
+.start-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.start-screen.hidden {
+    display: none;
+}
+
+.start-content {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 500px;
+}
+
+.start-content h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #8b4513;
+}
+
+.start-content p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.mode-selection {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.ai-difficulty {
+    margin-top: 20px;
+}
+
+.ai-difficulty h3 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.difficulty-btn {
+    margin: 0 10px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .board {
+        grid-template-columns: repeat(9, 35px);
+        grid-template-rows: repeat(9, 35px);
+    }
+    
+    .cell {
+        font-size: 14px;
+    }
+    
+    .piece {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+    
+    .card {
+        width: 50px;
+        height: 65px;
+        font-size: 14px;
+    }
+}
+
+.hidden {
+    display: none !important;
+}

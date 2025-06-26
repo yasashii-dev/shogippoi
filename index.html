@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>将棋カードゲーム</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="game-header">
+            <h1>将棋カードゲーム</h1>
+            <div class="game-info">
+                <span id="current-player">先手のターン</span>
+                <span id="action-status" class="action-status"></span>
+                <button id="surrender-btn" class="btn">投了</button>
+            </div>
+        </header>
+
+        <main class="game-main">
+            <!-- 後手の手札エリア -->
+            <div class="player-area player-2">
+                <div class="player-info">
+                    <h3>後手</h3>
+                    <span class="deck-count">山札: <span id="deck2-count">35</span>枚</span>
+                </div>
+                <div class="hand-cards" id="hand2">
+                    <!-- カードが動的に追加される -->
+                </div>
+                <div class="captured-pieces" id="captured2">
+                    <h4>取られた駒</h4>
+                    <div class="captured-list"></div>
+                </div>
+            </div>
+
+            <!-- 将棋盤 -->
+            <div class="board-container">
+                <div class="board" id="game-board">
+                    <!-- 9x9のマスが動的に生成される -->
+                </div>
+            </div>
+
+            <!-- 先手の手札エリア -->
+            <div class="player-area player-1">
+                <div class="player-info">
+                    <h3>先手</h3>
+                    <span class="deck-count">山札: <span id="deck1-count">35</span>枚</span>
+                </div>
+                <div class="hand-cards" id="hand1">
+                    <!-- カードが動的に追加される -->
+                </div>
+                <div class="captured-pieces" id="captured1">
+                    <h4>取られた駒</h4>
+                    <div class="captured-list"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- モーダル -->
+        <div id="modal" class="modal hidden">
+            <div class="modal-content">
+                <h2 id="modal-title"></h2>
+                <p id="modal-message"></p>
+                <div class="modal-buttons">
+                    <button id="modal-confirm" class="btn btn-primary">OK</button>
+                    <button id="modal-cancel" class="btn btn-secondary hidden">キャンセル</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ゲーム開始画面 -->
+        <div id="start-screen" class="start-screen">
+            <div class="start-content">
+                <h1>将棋カードゲーム</h1>
+                <p>王将から始まり、カードで駒を召喚して戦う新感覚ゲーム</p>
+                <div class="mode-selection">
+                    <button id="pvp-btn" class="btn btn-large">対人戦</button>
+                    <button id="pve-btn" class="btn btn-large">AI対戦</button>
+                </div>
+                <div id="ai-difficulty" class="ai-difficulty hidden">
+                    <h3>難易度を選択</h3>
+                    <button class="btn difficulty-btn" data-level="easy">初級</button>
+                    <button class="btn difficulty-btn" data-level="medium">中級</button>
+                    <button class="btn difficulty-btn" data-level="hard">上級</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/game.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/pieces.js"></script>
+    <script src="js/cards.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
