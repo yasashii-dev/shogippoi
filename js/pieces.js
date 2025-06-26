@@ -167,7 +167,7 @@ class Piece {
                         if (!targetCell) {
                             moves.push({ x: newX, y: newY });
                         } else {
-                            if (targetCell.player !== this.player && targetCell.type !== PIECE_TYPES.KING) {
+                            if (targetCell.player !== this.player) {
                                 moves.push({ x: newX, y: newY });
                             }
                             break;
