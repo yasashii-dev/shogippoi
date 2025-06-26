@@ -205,8 +205,9 @@ class Board {
                 this.currentPlayer === 1 ? '先手のターン' : '後手のターン';
             
             // 勝利判定
-            if (this.checkVictory()) {
-                this.handleGameEnd();
+            const victoryResult = this.checkVictory();
+            if (victoryResult.victory) {
+                this.handleGameEnd(victoryResult.reason);
             }
         }
     }
@@ -216,47 +217,66 @@ class Board {
         // 相手の王将の位置を探す
         const opponentPlayer = this.currentPlayer === 1 ? 2 : 1;
         let kingPosition = null;
+        let kingFound = false;
         
         for (let y = 0; y < 9; y++) {
             for (let x = 0; x < 9; x++) {
                 const piece = this.cells[y][x];
                 if (piece && piece.type === PIECE_TYPES.KING && piece.player === opponentPlayer) {
                     kingPosition = { x, y };
+                    kingFound = true;
                     break;
                 }
             }
-            if (kingPosition) break;
+            if (kingFound) break;
         }
         
-        if (!kingPosition) return false;
+        // 王将が取られた場合
+        if (!kingFound) {
+            return { victory: true, reason: 'king_captured' };
+        }
         
-        // 王将の周囲8マスをチェック
-        const surroundingPositions = [
-            [-1, -1], [0, -1], [1, -1],
-            [-1, 0],           [1, 0],
-            [-1, 1],  [0, 1],  [1, 1]
+        // 相手の王将の初期位置を確認
+        const initialKingPosition = opponentPlayer === 1 ? { x: 4, y: 8 } : { x: 4, y: 0 };
+        
+        // 初期位置とその周囲5マスを定義
+        const targetPositions = [
+            { x: initialKingPosition.x, y: initialKingPosition.y }, // 初期位置
+            { x: initialKingPosition.x - 1, y: initialKingPosition.y }, // 左
+            { x: initialKingPosition.x + 1, y: initialKingPosition.y }, // 右
+            { x: initialKingPosition.x, y: initialKingPosition.y + (opponentPlayer === 1 ? -1 : 1) }, // 前
+            { x: initialKingPosition.x - 1, y: initialKingPosition.y + (opponentPlayer === 1 ? -1 : 1) }, // 左前
+            { x: initialKingPosition.x + 1, y: initialKingPosition.y + (opponentPlayer === 1 ? -1 : 1) } // 右前
         ];
         
-        let surroundingCount = 0;
-        for (const [dx, dy] of surroundingPositions) {
-            const x = kingPosition.x + dx;
-            const y = kingPosition.y + dy;
-            
-            if (x >= 0 && x < 9 && y >= 0 && y < 9) {
-                const piece = this.cells[y][x];
+        // 指定位置に自分の駒が何個あるかカウント
+        let pieceCount = 0;
+        for (const pos of targetPositions) {
+            if (pos.x >= 0 && pos.x < 9 && pos.y >= 0 && pos.y < 9) {
+                const piece = this.cells[pos.y][pos.x];
                 if (piece && piece.player === this.currentPlayer) {
-                    surroundingCount++;
+                    pieceCount++;
                 }
             }
         }
         
-        return surroundingCount >= 2;
+        if (pieceCount >= 2) {
+            return { victory: true, reason: 'zone_control' };
+        }
+        
+        return { victory: false };
     }
 
     // ゲーム終了処理
-    handleGameEnd() {
+    handleGameEnd(reason) {
         const winner = this.currentPlayer === 1 ? '先手' : '後手';
-        alert(`${winner}の勝利！`);
+        let message = '';
+        if (reason === 'king_captured') {
+            message = `${winner}の勝利！\n相手の王将を取りました。`;
+        } else if (reason === 'zone_control') {
+            message = `${winner}の勝利！\n相手の王将の初期位置周辺を制圧しました。`;
+        }
+        alert(message);
         // ゲームリセットなどの処理
     }
 

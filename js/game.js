@@ -79,8 +79,9 @@ class Game {
             this.board.currentPlayer === 1 ? '先手のターン' : '後手のターン';
         
         // 勝利判定
-        if (this.board.checkVictory()) {
-            this.handleGameEnd();
+        const victoryResult = this.board.checkVictory();
+        if (victoryResult.victory) {
+            this.handleGameEnd(victoryResult.reason);
             return;
         }
         
@@ -137,9 +138,15 @@ class Game {
     }
 
     // ゲーム終了処理
-    handleGameEnd() {
+    handleGameEnd(reason) {
         const winner = this.board.currentPlayer === 1 ? '先手' : '後手';
-        this.showModal('ゲーム終了', `${winner}の勝利！\n相手の王将を2つの駒で包囲しました。`);
+        let message = '';
+        if (reason === 'king_captured') {
+            message = `${winner}の勝利！\n相手の王将を取りました。`;
+        } else if (reason === 'zone_control') {
+            message = `${winner}の勝利！\n相手の王将の初期位置周辺を制圧しました。`;
+        }
+        this.showModal('ゲーム終了', message);
         this.resetGame();
     }
 

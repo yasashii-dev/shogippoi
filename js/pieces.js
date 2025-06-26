@@ -198,8 +198,8 @@ class Piece {
         const targetCell = board[y][x];
         if (!targetCell) return true;
         
-        // 相手の駒の場合（王将以外は取れる）
-        if (targetCell.player !== this.player && targetCell.type !== PIECE_TYPES.KING) {
+        // 相手の駒の場合（王将も取れる）
+        if (targetCell.player !== this.player) {
             return true;
         }
         
