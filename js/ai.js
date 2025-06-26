@@ -116,38 +116,77 @@ class AI {
             // 相手の駒を取る場合は高評価
             const targetPiece = board.cells[move.to.y][move.to.x];
             if (targetPiece) {
-                score += this.getPieceValue(targetPiece.type) * 10;
+                // 王将を取る場合は最高評価
+                if (targetPiece.type === PIECE_TYPES.KING) {
+                    score += 10000;
+                } else {
+                    score += this.getPieceValue(targetPiece.type) * 10;
+                }
             }
             
-            // 相手の王将に近づく手は高評価
+            // 相手の王将の初期位置周辺への配置を評価
+            const enemyInitialPos = { x: 4, y: 8 }; // 先手の初期位置
+            const targetPositions = [
+                enemyInitialPos,
+                { x: enemyInitialPos.x - 1, y: enemyInitialPos.y },
+                { x: enemyInitialPos.x + 1, y: enemyInitialPos.y },
+                { x: enemyInitialPos.x, y: enemyInitialPos.y - 1 },
+                { x: enemyInitialPos.x - 1, y: enemyInitialPos.y - 1 },
+                { x: enemyInitialPos.x + 1, y: enemyInitialPos.y - 1 }
+            ];
+            
+            // 目標位置に移動する場合
+            for (const pos of targetPositions) {
+                if (move.to.x === pos.x && move.to.y === pos.y) {
+                    score += 50;
+                    
+                    // 既に1つ以上配置されている場合
+                    let count = 0;
+                    for (const checkPos of targetPositions) {
+                        if (checkPos.x === move.to.x && checkPos.y === move.to.y) continue;
+                        if (checkPos.x >= 0 && checkPos.x < 9 && checkPos.y >= 0 && checkPos.y < 9) {
+                            const piece = board.cells[checkPos.y][checkPos.x];
+                            if (piece && piece.player === this.player) {
+                                count++;
+                            }
+                        }
+                    }
+                    if (count >= 1) {
+                        score += 2000; // 勝利条件満たす
+                    }
+                    break;
+                }
+            }
+            
+            // 相手の王将に近づく手も評価
             const enemyKingPos = this.findKingPosition(board, 1);
             if (enemyKingPos) {
                 const currentDistance = Math.abs(move.from.x - enemyKingPos.x) + 
                                       Math.abs(move.from.y - enemyKingPos.y);
                 const newDistance = Math.abs(move.to.x - enemyKingPos.x) + 
                                    Math.abs(move.to.y - enemyKingPos.y);
-                score += (currentDistance - newDistance) * 5;
-            }
-            
-            // 王将の周囲に駒を配置する手は高評価
-            if (this.isAroundKing(move.to, enemyKingPos)) {
-                score += 20;
-                
-                // 既に1つ配置されている場合は勝利に直結するため最高評価
-                if (this.countSurroundingPieces(board, enemyKingPos, this.player) >= 1) {
-                    score += 1000;
-                }
+                score += (currentDistance - newDistance) * 3;
             }
         } else if (move.type === 'summon') {
             // 強い駒の召喚は高評価
             score += this.getPieceValue(move.card.pieceType);
             
-            // 相手の王将の近くに召喚する場合は高評価
-            const enemyKingPos = this.findKingPosition(board, 1);
-            if (enemyKingPos) {
-                const distance = Math.abs(move.position.x - enemyKingPos.x) + 
-                               Math.abs(move.position.y - enemyKingPos.y);
-                score += (4 - distance) * 3;
+            // 目標位置に召喚する場合
+            const enemyInitialPos = { x: 4, y: 8 };
+            const targetPositions = [
+                enemyInitialPos,
+                { x: enemyInitialPos.x - 1, y: enemyInitialPos.y },
+                { x: enemyInitialPos.x + 1, y: enemyInitialPos.y },
+                { x: enemyInitialPos.x, y: enemyInitialPos.y - 1 },
+                { x: enemyInitialPos.x - 1, y: enemyInitialPos.y - 1 },
+                { x: enemyInitialPos.x + 1, y: enemyInitialPos.y - 1 }
+            ];
+            
+            for (const pos of targetPositions) {
+                if (move.position.x === pos.x && move.position.y === pos.y) {
+                    score += 40;
+                    break;
+                }
             }
         }
         

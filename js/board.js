@@ -134,8 +134,21 @@ class Board {
 
     // 成りのプロンプト
     promptPromotion(piece) {
-        if (confirm('成りますか？')) {
-            piece.promote();
+        // AIの場合は自動的に成るか判断
+        if (game && game.gameMode === 'pve' && piece.player === 2) {
+            // AIは基本的に成る（歩と香車は必須、それ以外も基本的に成る）
+            const mustPromote = (piece.type === PIECE_TYPES.PAWN || piece.type === PIECE_TYPES.LANCE) && 
+                               ((piece.player === 1 && piece.position.y === 0) || 
+                                (piece.player === 2 && piece.position.y === 8));
+            
+            if (mustPromote || Math.random() > 0.2) { // 80%の確率で成る
+                piece.promote();
+            }
+        } else {
+            // 人間の場合は確認
+            if (confirm('成りますか？')) {
+                piece.promote();
+            }
         }
     }
 
